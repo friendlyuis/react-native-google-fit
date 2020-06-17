@@ -385,39 +385,6 @@ public class GoogleFitModule extends ReactContextBaseJavaModule implements Lifec
     }
 
     @ReactMethod
-    public void getHydrationSamples(double startDate,
-                                    double endDate,
-                                    Callback errorCallback,
-                                    Callback successCallback) {
-        try {
-            successCallback.invoke(mGoogleFitManager.getHydrationHistory().getHistory((long) startDate, (long) endDate));
-        } catch (IllegalViewOperationException e) {
-            errorCallback.invoke(e.getMessage());
-        }
-    }
-
-    @ReactMethod
-    public void saveHydration(ReadableArray hydrationArray,
-                           Callback errorCallback,
-                           Callback successCallback) {
-        try {
-            HydrationHistory hydrationHistory = mGoogleFitManager.getHydrationHistory();
-            successCallback.invoke(hydrationHistory.save(hydrationArray));
-        } catch (IllegalViewOperationException e) {
-            errorCallback.invoke(e.getMessage());
-        }
-    }
-    @ReactMethod
-    public void deleteHydration(ReadableMap options, Callback errorCallback, Callback successCallback) {
-        try {
-            HydrationHistory hydrationHistory = mGoogleFitManager.getHydrationHistory();
-            successCallback.invoke(hydrationHistory.delete(options));
-        } catch (IllegalViewOperationException e) {
-            errorCallback.invoke(e.getMessage());
-        }
-    }
-
-    @ReactMethod
     public void getSleepData(double startDate, double endDate, Callback errorCallback, Callback successCallback) {
         try {
            mGoogleFitManager.getSleepHistory().getSleepData((long)startDate, (long)endDate, errorCallback, successCallback);

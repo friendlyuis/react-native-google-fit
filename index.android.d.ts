@@ -152,22 +152,6 @@ declare module 'react-native-google-fit' {
       callback: (isError: boolean, result: any) => void
     ) => void
 
-    getHydrationSamples: (
-      startDate: string,
-      endDate: string,
-      callback: (isError: boolean, result: HydrationSample[] | string) => void
-    ) => void
-
-    saveHydration: (
-      hydrationArray: Hydration[],
-      callback: (isError: boolean, result: any) => void
-    ) => void
-
-    deleteHydration: (
-      options: DeleteOptions,
-      callback: (isError: boolean, result: any) => void
-    ) => void
-
     /**
      * Get the sleep sessions over a specified date range.
      * @param {Object} options getSleepData accepts an options object containing required startDate: ISO8601Timestamp and endDate: ISO8601Timestamp.
@@ -211,12 +195,6 @@ declare module 'react-native-google-fit' {
     endDate: string
   }
 
-  export interface HydrationSample {
-    addedBy: string
-    waterConsumed: number
-    date: string
-  }
-
   export interface FoodIntake {
     mealType: MealType
     foodName: string
@@ -226,11 +204,6 @@ declare module 'react-native-google-fit' {
 
   export interface AuthorizeOptions {
     scopes: Array<Scopes>
-  }
-
-  export interface Hydration {
-    date: number
-    waterConsumed: number
   }
 
   export interface DeleteOptions {
