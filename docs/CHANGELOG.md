@@ -1,7 +1,7 @@
 ### Changelog:
 
 ```
-0.10.0  + Implement hydration
+0.10.0  
         ~ Fix weight and height deletion
         ~ Update typescript definitions
 

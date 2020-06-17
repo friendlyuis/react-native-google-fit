@@ -9,7 +9,6 @@ import {
   lbsAndOzToK,
   prepareDailyResponse,
   prepareResponse,
-  prepareHydrationResponse,
   prepareDeleteOptions,
   getWeekBoundary,
 } from './src/utils';
@@ -558,50 +557,6 @@ class RNGoogleFit {
         } else {
           callback('There is no any heart rate data for this period', false)
         }
-      }
-    )
-  }
-
-  getHydrationSamples = (startDate, endDate, callback) => {
-    startDate = !isNil(startDate)
-      ? Date.parse(startDate)
-      : new Date().setHours(0, 0, 0, 0)
-    endDate = !isNil(endDate)
-      ? Date.parse(endDate)
-      : new Date().valueOf()
-    googleFit.getHydrationSamples(
-      startDate,
-      endDate,
-      msg => callback(true, msg),
-      res => {
-        callback(
-          false,
-          prepareHydrationResponse(res)
-        )
-      }
-    )
-  }
-
-  saveHydration(hydrationArray, callback) {
-    googleFit.saveHydration(
-      hydrationArray,
-      msg => {
-        callback(true, msg)
-      },
-      res => {
-        callback(false, res)
-      }
-    )
-  }
-
-  deleteHydration = (options, callback) => {
-    googleFit.deleteHydration(
-      prepareDeleteOptions(options),
-      msg => {
-        callback(msg, false)
-      },
-      res => {
-        callback(false, res)
       }
     )
   }
