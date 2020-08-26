@@ -12,9 +12,12 @@ package com.reactnative.googlefit;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.Log;
 import java.util.ArrayList;
 import android.content.Intent;
+
+import androidx.annotation.RequiresApi;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -129,23 +132,14 @@ public class GoogleFitModule extends ReactContextBaseJavaModule implements Lifec
     }
 
     @ReactMethod
-    public void getDailySteps(double startDay, double endDay) {
-        mGoogleFitManager.getStepHistory().displayLastWeeksData((long) startDay, (long) endDay);
-    }
-
-    @ReactMethod
-    public void getWeeklySteps(double startDate, double endDate) {
-        mGoogleFitManager.getStepHistory().displayLastWeeksData((long) startDate, (long) endDate);
-    }
-
-    @ReactMethod
     public void getDailyStepCountSamples(double startDate,
                                          double endDate,
+                                         ReadableMap configs,
                                          Callback errorCallback,
                                          Callback successCallback) {
 
         try {
-            mGoogleFitManager.getStepHistory().aggregateDataByDate((long) startDate, (long) endDate, successCallback);
+            mGoogleFitManager.getStepHistory().aggregateDataByDate((long) startDate, (long) endDate, configs, successCallback);
         } catch (IllegalViewOperationException e) {
             errorCallback.invoke(e.getMessage());
         }
@@ -180,11 +174,13 @@ public class GoogleFitModule extends ReactContextBaseJavaModule implements Lifec
     @ReactMethod
     public void getDailyDistanceSamples(double startDate,
                                         double endDate,
+                                        int bucketInterval,
+                                        String bucketUnit,
                                         Callback errorCallback,
                                         Callback successCallback) {
 
         try {
-            successCallback.invoke(mGoogleFitManager.getDistanceHistory().aggregateDataByDate((long) startDate, (long) endDate));
+            successCallback.invoke(mGoogleFitManager.getDistanceHistory().aggregateDataByDate((long) startDate, (long) endDate, bucketInterval, bucketUnit));
         } catch (IllegalViewOperationException e) {
             errorCallback.invoke(e.getMessage());
         }
@@ -239,11 +235,13 @@ public class GoogleFitModule extends ReactContextBaseJavaModule implements Lifec
     public void getDailyCalorieSamples(double startDate,
                                        double endDate,
                                        boolean basalCalculation,
+                                       int bucketInterval,
+                                       String bucketUnit,
                                        Callback errorCallback,
                                        Callback successCallback) {
 
         try {
-            successCallback.invoke(mGoogleFitManager.getCalorieHistory().aggregateDataByDate((long) startDate, (long) endDate, basalCalculation));
+            successCallback.invoke(mGoogleFitManager.getCalorieHistory().aggregateDataByDate((long) startDate, (long) endDate, basalCalculation, bucketInterval, bucketUnit));
         } catch (IllegalViewOperationException e) {
             errorCallback.invoke(e.getMessage());
         }
@@ -263,10 +261,12 @@ public class GoogleFitModule extends ReactContextBaseJavaModule implements Lifec
     @ReactMethod
     public void getDailyNutritionSamples(double startDate,
                                          double endDate,
+                                         int bucketInterval,
+                                         String bucketUnit,
                                          Callback errorCallback,
                                          Callback successCallback) {
         try {
-            successCallback.invoke(mGoogleFitManager.getNutritionHistory().aggregateDataByDate((long) startDate, (long) endDate));
+            successCallback.invoke(mGoogleFitManager.getNutritionHistory().aggregateDataByDate((long) startDate, (long) endDate, bucketInterval, bucketUnit));
         } catch (IllegalViewOperationException e) {
             errorCallback.invoke(e.getMessage());
         }
@@ -358,12 +358,14 @@ public class GoogleFitModule extends ReactContextBaseJavaModule implements Lifec
     @ReactMethod
     public void getBloodPressureSamples(double startDate,
                                         double endDate,
+                                        int bucketInterval,
+                                        String bucketUnit,
                                         Callback errorCallback,
                                         Callback successCallback) {
         try {
             HeartrateHistory heartrateHistory = mGoogleFitManager.getHeartrateHistory();
             heartrateHistory.setDataType(HealthDataTypes.TYPE_BLOOD_PRESSURE);
-            successCallback.invoke(heartrateHistory.getHistory((long)startDate, (long)endDate));
+            successCallback.invoke(heartrateHistory.getHistory((long)startDate, (long)endDate, bucketInterval, bucketUnit));
         } catch (IllegalViewOperationException e) {
             errorCallback.invoke(e.getMessage());
         }
@@ -372,13 +374,15 @@ public class GoogleFitModule extends ReactContextBaseJavaModule implements Lifec
     @ReactMethod
     public void getHeartRateSamples(double startDate,
                                     double endDate,
+                                    int bucketInterval,
+                                    String bucketUnit,
                                     Callback errorCallback,
                                     Callback successCallback) {
 
         try {
             HeartrateHistory heartrateHistory = mGoogleFitManager.getHeartrateHistory();
             heartrateHistory.setDataType(DataType.TYPE_HEART_RATE_BPM);
-            successCallback.invoke(heartrateHistory.getHistory((long)startDate, (long)endDate));
+            successCallback.invoke(heartrateHistory.getHistory((long)startDate, (long)endDate, bucketInterval, bucketUnit));
         } catch (IllegalViewOperationException e) {
             errorCallback.invoke(e.getMessage());
         }

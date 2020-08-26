@@ -68,7 +68,9 @@ A React Native bridge module for interacting with Google Fit
     ```javascript
     const options = {
       startDate: "2017-01-01T00:00:17.971Z", // required ISO8601Timestamp
-      endDate: new Date().toISOString() // required ISO8601Timestamp
+      endDate: new Date().toISOString(), // required ISO8601Timestamp
+      bucketUnit: "DAY", // optional - default "DAY". Valid values: "NANOSECOND" | "MICROSECOND" | "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY"
+      bucketInterval: 1, // optional - default 1. 
     };
     
     GoogleFit.getDailyStepCountSamples(options)
@@ -110,6 +112,38 @@ A React Native bridge module for interacting with Google Fit
       },
       { source: "com.xiaomi.hm.health", steps: [] }
     ];
+    ```
+   **Note:** bucket Config for step reflects on `rawStep` entity.
+   
+   **Response:**
+   ```javascript
+   // {bucketInterval: 15, bucketUnit: 'MINUTE'}
+   [
+      { source: "com.google.android.gms:estimated_steps", 
+        steps: [
+        {
+          "date":"2019-07-06","value": 135
+        },
+        ],
+        rawSteps: [
+          {"endDate": 1594012101944, "startDate": 1594012041944, "steps": 13}, 
+          {"endDate": 1594020600000, "startDate": 1594020596034, "steps": 0}, 
+          {"endDate": 1594020693175, "startDate": 1594020600000, "steps": 24}, 
+          {"endDate": 1594068898912, "startDate": 1594068777409, "steps": 53}, 
+          {"endDate": 1594073158830, "startDate": 1594073066166, "steps": 45}
+        ]
+      },
+    ]
+    
+    // {bucketInterval: 1, bucketUnit: 'DAY'}
+    [
+        { source: "com.google.android.gms:estimated_steps",
+            ...
+          rawSteps: [
+           {"endDate": 1594073158830, "startDate": 1594012041944, "steps": 135}
+          ]
+        }
+    ]
     ```
 
 4. Retrieve Weights
@@ -194,6 +228,8 @@ A React Native bridge module for interacting with Google Fit
     const options = {
       startDate: "2017-01-01T00:00:17.971Z", // required
       endDate: new Date().toISOString(), // required
+      bucketUnit: "DAY", // optional - default "DAY". Valid values: "NANOSECOND" | "MICROSECOND" | "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY"
+      bucketInterval: 1, // optional - default 1. 
     }
     const callback = ((error, response) => {
       console.log(error, response)
@@ -283,6 +319,8 @@ A React Native bridge module for interacting with Google Fit
         startDate: "2017-01-01T00:00:17.971Z", // required
         endDate: new Date().toISOString(), // required
         basalCalculation: true, // optional, to calculate or not basalAVG over the week
+        bucketUnit: "DAY", // optional - default "DAY". Valid values: "NANOSECOND" | "MICROSECOND" | "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY"
+        bucketInterval: 1, // optional - default 1. 
       };
 
       GoogleFit.getDailyCalorieSamples(opt, (err, res) => {
@@ -314,6 +352,8 @@ A React Native bridge module for interacting with Google Fit
       const opt = {
         startDate: "2017-01-01T00:00:17.971Z", // required
         endDate: new Date().toISOString(), // required
+        bucketUnit: "DAY", // optional - default "DAY". Valid values: "NANOSECOND" | "MICROSECOND" | "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY"
+        bucketInterval: 1, // optional - default 1. 
       };
 
       GoogleFit.getDailyDistanceSamples(opt, (err, res) => {
@@ -345,6 +385,8 @@ A React Native bridge module for interacting with Google Fit
       const opt = {
         startDate: "2017-01-01T00:00:17.971Z", // required
         endDate: new Date().toISOString(), // required
+        bucketUnit: "DAY", // optional - default "DAY". Valid values: "NANOSECOND" | "MICROSECOND" | "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | "DAY"
+        bucketInterval: 1, // optional - default 1. 
       };
 
       GoogleFit.getDailyNutritionSamples(opt, (err, res) => {
